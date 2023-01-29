@@ -7,20 +7,20 @@ import (
 	"gorm.io/gorm"
 )
 
-const DB_USERNAME = "jason"
+const DB_USERNAME = "root"
 const DB_PASSWORD = "jason123"
-const DB_NAME = "bookstore_db"
+const DB_NAME = "dev"
 const DB_HOST = "127.0.0.1"
 const DB_PORT = "3306"
 
 var db *gorm.DB
 
-func getDatabase() *gorm.DB {
-	db = connectToDatabase()
+func GetDatabase() *gorm.DB {
+	db = ConnectToDatabase()
 	return db
 }
 
-func connectToDatabase() *gorm.DB {
+func ConnectToDatabase() *gorm.DB {
 	var err error
 	dsn := DB_USERNAME + ":" + DB_PASSWORD + "@tcp" + "(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME + "?" + "parseTime=true&loc=Local"
 	fmt.Println("dsn : ", dsn)

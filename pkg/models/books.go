@@ -1,6 +1,9 @@
 package models
 
 import (
+	"log"
+
+	"github.com/jasonkoirala/bookstore/pkg/config"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +17,32 @@ type Book struct {
 }
 
 func init() {
-	// config.connectToDatabase()
-	// db = config.getDatabase()
-	// db.AutoMigrate(&Book{})
+	config.ConnectToDatabase()
+	db = config.GetDatabase()
+	db.AutoMigrate(&Book{})
+}
+
+func (b *Book) CreateBook() *Book {
+	db.Create(&b)
+	return b
+}
+
+func GetAllBooks() []Book {
+	var Books []Book
+	db.Find(&Books)
+	return Books
+}
+
+func GetBookByID(id int64) (*Book, *gorm.DB) {
+	var book Book
+	db := db.Where("id=?", id).Find(&book)
+	return &book, db
+}
+
+func DeleteBook(id int64) *Book {
+	log.Println(id)
+	log.Println("...bout to get deleted...")
+	var book Book
+	db.Where("id=?", id).Delete(&book)
+	return &book
 }
